@@ -113,11 +113,11 @@ function shouldSell() {
 function checkSignals() {
 	console.log('checking signals..');
 	if (shouldBuy()) {
-		//buy();
+		buy();
 		console.log(new Date() + ' SHOULD BUY');
 	}
 	if (shouldSell()) {
-		//sell();
+		sell();
 		console.log(new Date() + ' SHOULD SELL');
 	}
 }
