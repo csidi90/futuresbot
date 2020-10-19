@@ -23,6 +23,7 @@ const client = Binance({
 	await generateCache();
 	checkSignals();
 	startStreaming();
+	buy();
 })();
 
 //generate cache data for candlesticks (500)
