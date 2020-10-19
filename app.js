@@ -134,8 +134,8 @@ async function buy() {
 
 	let result = await client.futuresOrder(order);
 	let orderID = result.orderId;
-	let position = await client.futuresTrades({ symbol: SYMBOL });
-	console.log('buy order placed', position);
+	let order = await client.getOrder({ symbol: SYMBOL, orderID: orderID });
+	console.log('buy order placed', order);
 }
 
 async function sell() {
