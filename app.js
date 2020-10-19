@@ -23,7 +23,6 @@ const client = Binance({
 	await generateCache();
 	checkSignals();
 	startStreaming();
-	buy();
 })();
 
 //generate cache data for candlesticks (500)
@@ -133,7 +132,9 @@ async function buy() {
 	};
 
 	let result = await client.futuresOrder(order);
-	console.log('buy order placed', result);
+	let orderID = result.orderId;
+	let position = await client.futuresTrades();
+	console.log('buy order placed', position);
 }
 
 async function sell() {
