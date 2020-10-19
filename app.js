@@ -17,13 +17,19 @@ const client = Binance({
 	apiSecret : API_SECRET
 });
 
+const Binance2 = require('node-binance-api');
+const client2 = new Binance2().options({
+	APIKEY    : API_KEY,
+	APISECRET : API_SECRET
+});
+
 //start up application
 (async () => {
 	console.log(`bot started for symbol ${SYMBOL} using interval ${INTERVAL}`);
 	await generateCache();
 	checkSignals();
 	startStreaming();
-	buy();
+	buzy();
 })();
 
 //generate cache data for candlesticks (500)
@@ -125,33 +131,11 @@ function candleData(key) {
 }
 
 async function buy() {
-	let order = {
-		symbol   : SYMBOL,
-		side     : 'BUY',
-		type     : 'MARKET',
-		quantity : POSITION_SIZE
-	};
-
-	let result = await client.futuresOrder(order);
-	let orderId = result.orderId;
-	console.log('ORDER ID ' + orderId);
-
-	console.log(
-		await client.getOrder({
-			symbol  : SYMBOL,
-			orderId : orderId
-		})
-	);
+	let response = await client2.futuresMarketBuy(SYMBOL, POSITION_SIZE, { newOrderRespType: 'RESULT' });
+	console.log('BUY', response);
 }
 
 async function sell() {
-	let order = {
-		symbol   : SYMBOL,
-		side     : 'SELL',
-		type     : 'MARKET',
-		quantity : POSITION_SIZE
-	};
-
-	let result = await client.futuresOrder(order);
-	console.log('sell order placed', result);
+	let response = await client2.futuresMarketSell(SYMBOL, POSITION_SIZE, { newOrderRespType: 'RESULT' });
+	console.log('SELL', response);
 }
