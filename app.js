@@ -133,8 +133,13 @@ async function buy() {
 	};
 
 	let result = await client.futuresOrder(order);
-
-	console.log(await client.futuresOpenOrders());
+	let orderId = result.orderId;
+	console.log(
+		await client.getOrder({
+			symbol  : SYMBOL,
+			orderId : orderId
+		})
+	);
 }
 
 async function sell() {
