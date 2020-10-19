@@ -29,7 +29,6 @@ const client2 = new Binance2().options({
 	await generateCache();
 	checkSignals();
 	startStreaming();
-	buy();
 })();
 
 //generate cache data for candlesticks (500)
@@ -132,10 +131,8 @@ function candleData(key) {
 
 async function buy() {
 	let response = await client2.futuresMarketBuy(SYMBOL, POSITION_SIZE, { newOrderRespType: 'RESULT' });
-	console.log('BUY', response);
 }
 
 async function sell() {
 	let response = await client2.futuresMarketSell(SYMBOL, POSITION_SIZE, { newOrderRespType: 'RESULT' });
-	console.log('SELL', response);
 }
