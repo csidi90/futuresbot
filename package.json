@@ -1,0 +1,24 @@
+{
+	"name": "futuresbot",
+	"version": "1.0.0",
+	"description": "cryptofutures trading bot",
+	"main": "app.js",
+	"scripts": {
+		"start": "node app.js"
+	},
+	"keywords": [
+		"crypto",
+		"trading",
+		"futures",
+		"bot"
+	],
+	"author": "Christoffer Sidiropoulos csidiropoulos1990@gmail.com",
+	"license": "ISC",
+	"dependencies": {
+		"binance-api-node": "^0.10.8",
+		"dotenv": "^8.2.0",
+		"lodash": "^4.17.20",
+		"node-binance-api": "^0.12.1",
+		"talib-binding": "^1.0.2"
+	}
+}
