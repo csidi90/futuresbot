@@ -134,7 +134,7 @@ async function buy() {
 
 	let result = await client.futuresOrder(order);
 
-	console.log(await client.openOrders());
+	console.log(await client.futuresOpenOrders());
 }
 
 async function sell() {
