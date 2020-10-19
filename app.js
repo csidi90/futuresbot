@@ -134,6 +134,8 @@ async function buy() {
 
 	let result = await client.futuresOrder(order);
 	let orderId = result.orderId;
+	console.log('ORDER ID ' + orderId);
+
 	console.log(
 		await client.getOrder({
 			symbol  : SYMBOL,
