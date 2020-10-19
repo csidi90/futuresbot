@@ -29,7 +29,7 @@ const client2 = new Binance2().options({
 	await generateCache();
 	checkSignals();
 	startStreaming();
-	buzy();
+	buy();
 })();
 
 //generate cache data for candlesticks (500)
