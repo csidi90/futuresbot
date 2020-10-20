@@ -1,4 +1,9 @@
 const dotenv = require('dotenv').config();
+const express = require('express');
+const bodyParser = require('body-parser');
+const cors = require('cors');
+const PORT = process.env.PORT || 3000;
+const app = express();
 const DEBUG = process.env.DEBUG;
 const _ = require('lodash');
 const Binance = require('binance-api-node').default;
@@ -12,24 +17,43 @@ const SYMBOL = process.env.SYMBOL;
 const INTERVAL = process.env.INTERVAL;
 const talib = require('talib-binding');
 let cache = [];
+let orders = [];
 const client = Binance({
 	apiKey    : API_KEY,
 	apiSecret : API_SECRET
 });
 
 const Binance2 = require('node-binance-api');
+const { OrderRejectReason } = require('binance-api-node');
+const { runInContext } = require('lodash');
 const client2 = new Binance2().options({
 	APIKEY    : API_KEY,
 	APISECRET : API_SECRET
 });
 
+app.set('json spaces', 2);
+app.use(cors());
+app.use(bodyParser.json());
+app.get('/', async (req, res) => {
+	res.json({ SYMBOL, INTERVAL, PORT, DEFAULT_LEVERAGE, DEFAULT_SL_PERCENTRAGE, POSITION_SIZE });
+});
+app.get('/orders', async (req, res) => {
+	res.status(200).json(orders);
+});
+app.get('/cache', async (req, res) => {
+	res.status(200).json(cache);
+});
+app.listen(PORT, async () => {
+	console.log(`server starting on port ${PORT}`);
+	start();
+});
 //start up application
-(async () => {
+async function start() {
 	console.log(`bot started for symbol ${SYMBOL} using interval ${INTERVAL}`);
 	await generateCache();
 	checkSignals();
 	startStreaming();
-})();
+}
 
 //generate cache data for candlesticks (500)
 async function generateCache() {
@@ -131,8 +155,10 @@ function candleData(key) {
 
 async function buy() {
 	let response = await client2.futuresMarketBuy(SYMBOL, POSITION_SIZE, { newOrderRespType: 'RESULT' });
+	orders.push(response);
 }
 
 async function sell() {
 	let response = await client2.futuresMarketSell(SYMBOL, POSITION_SIZE, { newOrderRespType: 'RESULT' });
+	orders.push(response);
 }
